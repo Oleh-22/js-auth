@@ -15,7 +15,7 @@
       border-color: s.color(gray);
     }
     &[active] .field__icon {
-      background-image: url('/svg/checkbox-active.svg');
+      background-image: url('/svg/checkbox-disabled.svg');
     }
   }
 
@@ -29,7 +29,7 @@
     display: block;
     height: 14px;
     width: 14px;
-    background-image: url('/svg/checkbox-disabled.svg');
+    background-image: url('/svg/checkbox-active.svg');
     background-size: 12px 12px;
     background-repeat: no-repeat;
     background-position: center center;
