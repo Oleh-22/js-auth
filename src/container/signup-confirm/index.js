@@ -1,22 +1,15 @@
-import { Form, REG_EXP_EMAIL, REG_EXP_PASSWORD } from '../../script/form'
-import { saveSession } from '../../script/session'
+import { Form } from '../../script/form'
+import { getSession, getTokenSession, saveSession } from '../../script/session'
 
-class RecoveryConfirmForm extends Form {
-  //константа полів які маємо в формі
+class SignupConfirmForm extends Form {
   FIELD_NAME = {
     CODE: 'code',
-    PASSWORD: 'password',
-    PASSWORD_AGAIN: 'passwordAgain',
   }
   FIELD_ERROR = {
     IS_EMPTY: 'Введіть значення в поле',
     IS_BIG: 'Дуже довге значення, приберіть зайве',
-    PASSWORD:
-      'Пароль повинен складатися з не меньше як 8 символів, включаючи одну цифру, малу та велику літеру',
-    PASSWORD_AGAIN: 'Ваш другий пароль не збігається з першим',
   }
 
-  //перевірка по коректному зню
   validate = (name, value) => {
     if (String(value).length < 1) {
       return this.FIELD_ERROR.IS_EMPTY
@@ -37,7 +30,6 @@ class RecoveryConfirmForm extends Form {
     }
   }
 
-  //відправляємо дані на сервер
   submit = async () => {
     if (this.disabled === true) {
       this.validateAll()
@@ -48,7 +40,7 @@ class RecoveryConfirmForm extends Form {
     }
 
     try {
-      const res = await fetch('/recovery-confirm', {
+      const res = await fetch('/signup-confirm', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -72,9 +64,28 @@ class RecoveryConfirmForm extends Form {
   convertData = () => {
     return JSON.stringify({
       [this.FIELD_NAME.CODE]: Number(this.value[this.FIELD_NAME.CODE]),
-      [this.FIELD_NAME.PASSWORD]: this.value[this.FIELD_NAME.PASSWORD],
+      token: getTokenSession(),
     })
   }
 }
 
-window.recoveryConfirmForm = new RecoveryConfirmForm()
+window.signupConfirmForm = new SignupConfirmForm()
+
+document.addEventListener('DOMContentLoaded', () => {
+  try {
+    if (window.session) {
+      if (window.session.user.isConfirm) {
+        location.assign('/')
+      }
+    } else {
+      location.assign('/')
+    }
+  } catch (error) {}
+
+  document.querySelector('#renew').addEventListener('click', (e) => {
+    e.preventDefault()
+
+    const session = getSession()
+    location.assign(`/signup-confirm?renew=true&email=${session.user.email}`)
+  })
+})

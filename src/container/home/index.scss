@@ -1,0 +1,15 @@
+@use '../../style' as s;
+
+main {
+  padding: 20px;
+}
+
+.logout {
+  background-color: s.color('main');
+  padding: 10px 50px;
+  border-radius: 7px;
+}
+a {
+  text-decoration: none;
+  color: white;
+}

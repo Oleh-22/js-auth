@@ -7,20 +7,37 @@ router.get('/', function (req, res) {
   // res.render генерує нам HTML сторінку
 
   // ↙️ cюди вводимо назву файлу з сontainer
-  res.render('index', {
+  return res.render('index', {
     // вказуємо назву контейнера
     name: 'index',
     // вказуємо назву компонентів
     component: [''],
 
     // вказуємо назву сторінки
-    title: 'Home page',
+    title: 'Index page',
     // ... сюди можна далі продовжувати додавати потрібні технічні дані, які будуть використовуватися в layout
 
     // вказуємо дані,
     data: {},
   })
   // ↑↑ сюди вводимо JSON дані
+})
+
+//===================================
+router.get('/home', function (req, res) {
+  return res.render('home', {
+    name: 'home',
+    title: 'Home page',
+    data: {},
+  })
+})
+//===================================
+router.get('/logout', function (req, res) {
+  return res.render('logout', {
+    name: 'logout',
+    title: 'Logout page',
+    data: {},
+  })
 })
 
 // Підключіть файли роутів
